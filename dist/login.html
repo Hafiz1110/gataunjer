@@ -6,15 +6,15 @@
     <link rel="stylesheet" href="style.css">
     <title>Login - Dashboard</title>
 </head>
-<body class="bg-black min-h-screen flex items-center justify-center">
-    <div class="bg-gray-900 p-8 rounded-lg shadow-lg border border-blue-500 w-full max-w-md">
-        <h2 class="text-3xl font-bold text-white text-center mb-6">Login to Dashboard</h2>
+<body class="bg-black min-h-screen flex items-center justify-center p-4">
+    <div class="bg-gray-900 p-6 sm:p-8 rounded-lg shadow-lg border border-blue-500 w-full max-w-md">
+        <h2 class="text-2xl sm:text-3xl font-bold text-white text-center mb-6">Login to Dashboard</h2>
         <div class="flex flex-col gap-4">
-            <input id="email" type="email" placeholder="Enter your email" class="bg-gray-800 text-white border border-blue-500 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <input id="password" type="password" placeholder="Enter your password" class="bg-gray-800 text-white border border-blue-500 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <button onclick="login()" class="bg-blue-600 hover:bg-blue-700 text-white rounded-md py-3 transition-colors font-semibold">Login</button>
+            <input id="email" type="email" placeholder="Enter your email" class="bg-gray-800 text-white border border-blue-500 rounded-md px-4 py-2 sm:py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base">
+            <input id="password" type="password" placeholder="Enter your password" class="bg-gray-800 text-white border border-blue-500 rounded-md px-4 py-2 sm:py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base">
+            <button onclick="login()" class="bg-blue-600 hover:bg-blue-700 text-white rounded-md py-2 sm:py-3 transition-colors font-semibold text-sm sm:text-base">Login</button>
         </div>
-        <p class="text-gray-400 text-center mt-4">Welcome back! Please enter your credentials.</p>
+        <p class="text-gray-400 text-center mt-4 text-sm sm:text-base">Welcome back! Please enter your credentials.</p>
     </div>
 
 <script src="js/auth.js"></script>
