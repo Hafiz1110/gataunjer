@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>My Wishlist - Dashboard</title>
+</head>
+<body class="bg-black">
+<div class="bg-blue-800 shadow-lg">
+  <div class="flex items-center justify-between h-20 px-6">
+    <div class="text-2xl font-bold text-white">Dashboard</div>
+    <div class="text-center flex-1">
+      <p class="text-2xl font-bold text-white" id="welcome-text">Welcome to the dashboard !</p>
+    </div>
+    <div class="flex space-x-4">
+      <button onclick="window.location.href='index.html'" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded transition-colors">Back to Products</button>
+      <button onclick="logout()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition-colors">Logout</button>
+      <button onclick="login()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition-colors">Login</button>
+    </div>
+  </div>
+</div>
+
+<div id="container" class="p-6">
+    <div id="wishlist-container">
+        <h2 class="text-3xl font-semibold mb-6 text-white">My Wishlist</h2>
+        <div id="wishlist-items" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        </div>
+    </div>
+</div>
+
+<script src="js/session.js"></script>
+<script src="js/product.js"></script>
+<script src="wishlist.js"></script>
+
+<script>
+    const name = sessionStorage.getItem("name");
+    if (name) {
+        document.getElementById("welcome-text").textContent = `Welcome ${name} to the dashboard !`;
+    }
+    
+    // Load wishlist when page loads
+    async function loadWishlistPage() {
+        // Fetch products first
+        await fetchProducts();
+        // Then load wishlist display
+        loadWishlistDisplay();
+    }
+    
+    loadWishlistPage();
+</script>
+</body>
+</html>
