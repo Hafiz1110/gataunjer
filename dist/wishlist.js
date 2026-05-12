@@ -1,13 +1,59 @@
 let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+let notificationTimeout = null;
+
+function showNotification(message, type = 'info', actions = []) {
+    const notification = document.getElementById('notification');
+    if (!notification) return;
+
+    const typeClasses = type === 'success'
+        ? 'bg-emerald-700 border-emerald-500 text-white'
+        : type === 'error'
+            ? 'bg-red-700 border-red-500 text-white'
+            : 'bg-slate-900 border-slate-700 text-white';
+
+    const messageHtml = message.replace(/\n/g, '<br>');
+    const actionHtml = actions.map(action => `
+            <button type="button" onclick="${action.onClick}" class="rounded px-3 py-2 text-sm font-semibold ${action.class || 'bg-slate-700 hover:bg-slate-600 text-white'}">${action.label}</button>
+        `).join('');
+
+    notification.innerHTML = `
+        <div class="border ${typeClasses} p-4 rounded-xl">
+            <div class="text-sm leading-6">${messageHtml}</div>
+            ${actions.length ? `<div class="notification-actions">${actionHtml}</div>` : ''}
+        </div>
+    `;
+    notification.style.display = 'block';
+
+    if (notificationTimeout) {
+        clearTimeout(notificationTimeout);
+        notificationTimeout = null;
+    }
+
+    if (!actions.length) {
+        notificationTimeout = setTimeout(() => {
+            notification.style.display = 'none';
+        }, 4000);
+    }
+}
+
+function hideNotification() {
+    const notification = document.getElementById('notification');
+    if (!notification) return;
+    notification.style.display = 'none';
+    if (notificationTimeout) {
+        clearTimeout(notificationTimeout);
+        notificationTimeout = null;
+    }
+}
 
 function addToWishlist(productId) {
     const product = products.find(p => p.id === productId);
     if (product && !wishlist.find(p => p.id === productId)) {
         wishlist.push(product);
         localStorage.setItem('wishlist', JSON.stringify(wishlist));
-        alert(`${product.title} added to wishlist!`);
+        showNotification(`${product.title} added to wishlist!`, 'success');
     } else if (wishlist.find(p => p.id === productId)) {
-        alert('Product already in wishlist!');
+        showNotification('Product already in wishlist!', 'error');
     }
 }
 
@@ -52,6 +98,34 @@ function loadWishlistDisplay() {
     
     if (modalContainer) modalContainer.innerHTML = html;
     if (container) container.innerHTML = html;
+
+    const checkoutBtn = document.getElementById('wishlistCheckoutBtn');
+    if (checkoutBtn) checkoutBtn.disabled = wishlist.length === 0;
+}
+
+function checkoutWishlist() {
+    if (wishlist.length === 0) {
+        showNotification('Your wishlist is empty. Add items before checking out.', 'error');
+        return;
+    }
+
+    const total = wishlist.reduce((sum, product) => sum + product.price, 0).toFixed(2);
+    const itemList = wishlist.map(product => `${product.title} - $${product.price.toFixed(2)}`).join('\n');
+
+    showNotification(`Checkout the following wishlist items?\n\n${itemList}\n\nTotal: $${total}`, 'info', [
+        { label: 'Confirm checkout', onClick: 'confirmWishlistCheckout()', class: 'bg-emerald-600 hover:bg-emerald-700 text-white' },
+        { label: 'Cancel', onClick: 'hideNotification()', class: 'bg-slate-700 hover:bg-slate-600 text-white' }
+    ]);
+}
+
+function confirmWishlistCheckout() {
+    const total = wishlist.reduce((sum, product) => sum + product.price, 0).toFixed(2);
+    wishlist = [];
+    localStorage.setItem('wishlist', JSON.stringify(wishlist));
+    loadWishlistDisplay();
+    closeWishlistModal();
+    hideNotification();
+    showNotification(`Checkout complete! Total charged: $${total}`, 'success');
 }
 
 function openWishlistModal() {

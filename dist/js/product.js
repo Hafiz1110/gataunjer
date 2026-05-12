@@ -4,12 +4,12 @@ async function fetchProducts() {
   try {
     let response = await fetch("https://fakestoreapi.com/products");
     if (!response.ok) throw new Error("Gagal memuat data produk");
-    products = await response.json();
-    loadProduct();
-  } catch (error) {
-    console.error("ERROR saat memuat data produk:", error);
+      products = await response.json();
+      loadProduct();
+    } catch (error) {
+      console.error("ERROR saat memuat data produk:", error);
+    }
   }
-}
 
 function loadProduct() {
   let container = document.getElementById("products");

@@ -5,8 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="dist/style.css">
     <title>Dashboard</title>
+    <style>
+      #notification {
+        display: none;
+        position: fixed;
+        bottom: 1rem;
+        right: 1rem;
+        z-index: 60;
+        width: min(100%, 24rem);
+        border-radius: 1rem;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+      }
+      #notification .notification-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 0.75rem;
+      }
+      #notification button {
+        min-width: 5rem;
+      }
+    </style>
 </head>
 <body class="bg-black">
+<div id="notification"></div>
 <div class="bg-blue-800 shadow-lg">
   <div class="flex items-center justify-between h-auto sm:h-20 px-3 sm:px-6 py-3 sm:py-0 flex-wrap sm:flex-nowrap gap-3 sm:gap-0">
     <div class="text-xl sm:text-2xl font-bold text-white">Dashboard</div>
@@ -25,7 +47,7 @@
   <div class="container mx-auto text-center">
     <h1 class="text-3xl sm:text-5xl font-bold mb-3 sm:mb-4">Discover Amazing Products</h1>
     <p class="text-base sm:text-xl mb-6 sm:mb-8">Explore our curated collection of high-quality items from various categories.</p>
-    <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg text-sm sm:text-base transition-colors">Shop Now</button>
+
   </div>
 </section>
 
@@ -62,7 +84,10 @@
     <div id="wishlistModalContent" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 mb-4 sm:mb-6">
     </div>
     <div id="wishlistTotal" class="text-right text-white text-lg sm:text-xl font-bold mb-4"></div>
-    <button onclick="closeWishlistModal()" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition-colors text-sm sm:text-base">Close</button>
+    <div class="grid gap-2 sm:grid-cols-2">
+      <button id="wishlistCheckoutBtn" onclick="checkoutWishlist()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded transition-colors text-sm sm:text-base">Checkout</button>
+      <button onclick="closeWishlistModal()" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition-colors text-sm sm:text-base">Close</button>
+    </div>
   </div>
 </div>
 
